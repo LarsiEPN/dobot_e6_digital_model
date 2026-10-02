@@ -136,6 +136,48 @@ def generate_launch_description():
             }
         ]
     )
+    
+    # ============================================================
+    # RVIZ
+    # ============================================================
+
+    rviz_config = os.path.join(
+        package_share,
+        "rviz",
+        "dobot_e6_description.rviz"
+    )
+    
+    use_rviz_arg = DeclareLaunchArgument(
+        "use_rviz",
+        default_value="true",
+        description="Launch RViz2"
+    )
+
+    use_rviz = LaunchConfiguration(
+        "use_rviz"
+    )
+
+    rviz_node = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        arguments=[
+            "-d",
+            rviz_config
+        ],
+        parameters=[
+            {
+                "use_sim_time": True
+            }
+        ],
+        output="screen",
+        condition=IfCondition(
+            use_rviz
+        )
+    )
+    
+    
+
 
 
     # ============================================================
@@ -147,6 +189,7 @@ def generate_launch_description():
     # Arguments
     ld.add_action(use_joint_state_gui_arg)
     ld.add_action(controller_type_arg)
+    ld.add_action(use_rviz_arg)
 
     # Debug
     ld.add_action(controller_debug)
@@ -154,5 +197,6 @@ def generate_launch_description():
     # Nodes
     ld.add_action(joint_state_gui)
     ld.add_action(robot_state_publisher)
+    ld.add_action(rviz_node)
 
     return ld
