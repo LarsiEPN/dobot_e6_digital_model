@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+
+<robot>
+
+  <!-- ========================================================= -->
+  <!-- GAZEBO JOINT STATE PUBLISHER                              -->
+  <!-- ========================================================= -->
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-joint-state-publisher-system"
+      name="gz::sim::systems::JointStatePublisher">
+
+      <topic>joint_states</topic>
+
+      <joint_name>joint1</joint_name>
+      <joint_name>joint2</joint_name>
+      <joint_name>joint3</joint_name>
+      <joint_name>joint4</joint_name>
+      <joint_name>joint5</joint_name>
+      <joint_name>joint6</joint_name>
+
+    </plugin>
+  </gazebo>
+
+
+  <!-- ========================================================= -->
+  <!-- FIX ROBOT BASE TO WORLD                                   -->
+  <!-- ========================================================= -->
+
+  <gazebo reference="base_link">
+    <static>true</static>
+  </gazebo>
+
+
+  <!-- ========================================================= -->
+  <!-- ROS 2 CONTROL - POSITION INTERFACES                        -->
+  <!-- ========================================================= -->
+
+  <ros2_control name="DobotE6System" type="system">
+
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+
+
+    <!-- ======================= JOINT 1 ======================== -->
+
+    <joint name="joint1">
+
+      <command_interface name="position"/>
+
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+
+      <state_interface name="velocity"/>
+
+    </joint>
+
+
+    <!-- ======================= JOINT 2 ======================== -->
+
+    <joint name="joint2">
+
+      <command_interface name="position"/>
+
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+
+      <state_interface name="velocity"/>
+
+    </joint>
+
+
+    <!-- ======================= JOINT 3 ======================== -->
+
+    <joint name="joint3">
+
+      <command_interface name="position"/>
+
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+
+      <state_interface name="velocity"/>
+
+    </joint>
+
+
+    <!-- ======================= JOINT 4 ======================== -->
+
+    <joint name="joint4">
+
+      <command_interface name="position"/>
+
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+
+      <state_interface name="velocity"/>
+
+    </joint>
+
+
+    <!-- ======================= JOINT 5 ======================== -->
+
+    <joint name="joint5">
+
+      <command_interface name="position"/>
+
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+
+      <state_interface name="velocity"/>
+
+    </joint>
+
+
+    <!-- ======================= JOINT 6 ======================== -->
+
+    <joint name="joint6">
+
+      <command_interface name="position"/>
+
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+
+      <state_interface name="velocity"/>
+
+    </joint>
+
+  </ros2_control>
+
+
+  <!-- ========================================================= -->
+  <!-- GZ ROS2 CONTROL PLUGIN                                    -->
+  <!-- ========================================================= -->
+
+  <gazebo>
+
+    <plugin
+      name="gz_ros2_control::GazeboSimROS2ControlPlugin"
+      filename="libgz_ros2_control-system.so">
+
+      <parameters>
+        $(find dobot_e6_description)/config/controllers_position.yaml
+      </parameters>
+
+    </plugin>
+
+  </gazebo>
+
+
+</robot>

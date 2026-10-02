@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+
+<robot
+    xmlns:xacro="http://www.ros.org/wiki/xacro"
+    name="me6_robot">
+
+
+    <!-- ====================================================== -->
+    <!-- ARGUMENTS                                              -->
+    <!-- ====================================================== -->
+
+    <xacro:arg
+        name="use_tester_end_effector"
+        default="false"/>
+
+    <xacro:arg
+        name="use_weed_removal_tool"
+        default="false"/>
+
+    <xacro:arg
+        name="robot_name"
+        default="me6_robot"/>
+
+    <xacro:arg
+        name="use_mock_hardware"
+        default="false"/>
+
+    <xacro:arg
+        name="use_gripper_hardware_interface"
+        default="false"/>
+
+
+    <!-- ====================================================== -->
+    <!-- CONTROLLER ARGUMENT                                    -->
+    <!-- ====================================================== -->
+
+    <xacro:arg
+        name="controller_type"
+        default="position_control"/>
+
+    <xacro:property
+        name="controller_type"
+        value="$(arg controller_type)"/>
+
+
+    <!-- ====================================================== -->
+    <!-- GAZEBO CONTROL CONFIGURATION                           -->
+    <!-- ====================================================== -->
+
+
+    <!-- POSITION CONTROL -->
+
+    <xacro:if value="${controller_type == 'position_control'}">
+
+        <xacro:include
+            filename="$(find dobot_e6_description)/urdf/robots/dobot_e6_position_control.gazebo"/>
+
+    </xacro:if>
+
+
+    <!-- VELOCITY CONTROL -->
+
+    <xacro:if value="${controller_type == 'velocity_control'}">
+
+        <xacro:include
+            filename="$(find dobot_e6_description)/urdf/robots/dobot_e6_velocity_control.gazebo"/>
+
+    </xacro:if>
+
+
+    <!-- ====================================================== -->
+    <!-- MECHANICAL DESCRIPTION                                 -->
+    <!-- ====================================================== -->
+
+    <xacro:include
+        filename="$(find dobot_e6_description)/urdf/mech/dobot_e6_arm.urdf.xacro"/>
+
+
+    <!-- ====================================================== -->
+    <!-- ROBOT ARM                                              -->
+    <!-- ====================================================== -->
+
+    <xacro:dobot_e6_arm/>
+
+
+    <!-- ====================================================== -->
+    <!-- OPTIONAL COMPONENTS                                    -->
+    <!-- ====================================================== -->
+
+    <!--
+    Gripper and additional tools are currently disabled while
+    validating arm position and velocity control.
+    -->
+
+
+    <!-- TESTER END EFFECTOR -->
+
+    <!--
+    <xacro:include
+        filename="$(find dobot_e6_description)/urdf/mech/tester_end_effector.urdf.xacro"/>
+
+    <xacro:if value="$(arg use_tester_end_effector)">
+        <xacro:tester_end_effector/>
+    </xacro:if>
+    -->
+
+
+    <!-- WEED REMOVAL TOOL -->
+
+    <!--
+    <xacro:include
+        filename="$(find dobot_e6_description)/urdf/mech/weed_removal_tool.urdf.xacro"/>
+
+    <xacro:if value="$(arg use_weed_removal_tool)">
+        <xacro:weed_removal_tool/>
+    </xacro:if>
+    -->
+
+
+    <!-- MOCK HARDWARE -->
+
+    <!--
+    <xacro:include
+        filename="$(find dobot_e6_description)/urdf/control/dobot_e6_ros2_control.urdf.xacro"/>
+
+    <xacro:if value="$(arg use_mock_hardware)">
+        <xacro:dobot_e6_ros2_control
+            use_mock_hardware="$(arg use_mock_hardware)"/>
+    </xacro:if>
+    -->
+
+
+    <!-- GRIPPER HARDWARE INTERFACE -->
+
+    <!--
+    <xacro:include
+        filename="$(find dobot_e6_description)/urdf/control/gripper_control.urdf.xacro"/>
+
+    <xacro:if value="$(arg use_gripper_hardware_interface)">
+        <xacro:gripper_ros2_control/>
+    </xacro:if>
+    -->
+
+
+</robot>
